@@ -1,0 +1,2 @@
+Componentes Conexas no Ano 2014.0:
+Componente 1: {'SE', 'AL', 'MS', 'SP', 'RN', 'RS', 'RO', 'MG', 'RR', 'PB', 'AM', 'RJ', 'CE', 'GO', 'ES', 'PI', 'DF', 'AP', 'TO', 'PR', 'BA', 2014.0, 'PE', 'MA', 'AC', 'SC', 'MT', 'PA'}
