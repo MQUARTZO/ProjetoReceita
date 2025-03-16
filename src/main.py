@@ -7,6 +7,7 @@ def main():
     input_file = 'C:/Users/Mateus/ProjetoReceita/data/arrecadacao-estado.csv'
     processed_file = 'C:/Users/Mateus/ProjetoReceita/data/processed_arrecadacao.csv'
     output_image = 'C:/Users/Mateus/ProjetoReceita/images/bipartite_graph.png'
+    output_folder_subgraphs = 'C:/Users/Mateus/ProjetoReceita/images/subgraphs'
     
     # Carrega e processa os dados
     df = load_data(input_file)
@@ -21,6 +22,11 @@ def main():
     
     # Realiza análises no grafo
     analyze_graph(G)
+    
+
+    # Cria e salva os subgrafos
+    create_subgraphs(df_processed, output_folder_subgraphs)
+
 
 if __name__ == "__main__":
     main()
