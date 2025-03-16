@@ -1,2 +1,2 @@
 Componentes Conexas no Ano 2012.0:
-Componente 1: {'SE', 'AL', 'MS', 'SP', 'RN', 'RS', 'RO', 'MG', 'RR', 'PB', 'AM', 'RJ', 'CE', 'GO', 'ES', 'PI', 'DF', 'AP', 'TO', 'PR', 'BA', 2012.0, 'PE', 'MA', 'AC', 'SC', 'MT', 'PA'}
+Componente 1: {'PR', 'AM', 'MT', 'SP', 'MA', 'AC', 'PI', 'AP', 'TO', 'RN', 'DF', 'RO', 'PA', 'RJ', 'RS', 'MS', 'BA', 'RR', 'PB', 'MG', 2012.0, 'PE', 'SE', 'GO', 'SC', 'CE', 'AL', 'ES'}

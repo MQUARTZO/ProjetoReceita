@@ -12,17 +12,27 @@ def detect_communities(df, output_folder):
         df_ano = df[df['Ano'] == ano]
         G = nx.Graph()
         
+        # Adiciona nós e arestas ao grafo
         for _, row in df_ano.iterrows():
             estado = row['UF']
             arrecadacao = row['IMPOSTO SOBRE IMPORTAÇÃO']
             
-            # Garante que o peso da aresta seja positivo
+            # Garante que o valor do imposto seja positivo
             if arrecadacao < 0:
-                arrecadacao = 0  # Define pesos negativos como 0 ou ajuste conforme necessário
+                arrecadacao = 0  # Define como zero se for negativo
             
             G.add_node(estado, bipartite=0)
             G.add_node(ano, bipartite=1)
             G.add_edge(estado, ano, weight=arrecadacao)
+        
+        # Ordena os estados por valor de imposto sobre importação (decrescente)
+        estados_ordenados = sorted(df_ano['UF'], key=lambda x: df_ano[df_ano['UF'] == x]['IMPOSTO SOBRE IMPORTAÇÃO'].values[0], reverse=True)
+        
+        # Define posições dos nós manualmente
+        pos = {}
+        pos[ano] = (0, 0)  # Ano no centro
+        for i, estado in enumerate(estados_ordenados):
+            pos[estado] = (1, i)  # Estados à direita, ordenados
         
         # Detecta comunidades usando o algoritmo de Louvain
         try:
@@ -38,11 +48,8 @@ def detect_communities(df, output_folder):
             for node, community_id in partition.items():
                 f.write(f"{node}: Comunidade {community_id}\n")
         
-        # Gera uma visualização gráfica do grafo com comunidades destacadas
-        plt.figure(figsize=(20, 15))  # Aumenta o tamanho da figura
-        
-        # Usa o layout spring_layout com parâmetros personalizados para espalhar os nós
-        pos = nx.spring_layout(G, k=1.5, iterations=200)
+        # Gera uma visualização gráfica do grafo
+        plt.figure(figsize=(12, 8))
         
         # Desenha os nós com cores diferentes para cada comunidade
         nx.draw_networkx_nodes(
@@ -53,31 +60,34 @@ def detect_communities(df, output_folder):
             alpha=0.8
         )
         
-        # Desenha as arestas com o valor do imposto no centro
-        edge_labels = {(u, v): f"{d['weight']:.2f}" for u, v, d in G.edges(data=True)}
-        nx.draw_networkx_edges(
+        # Desenha as arestas
+        edges = nx.draw_networkx_edges(
             G, pos,
             width=1.0,
             edge_color='gray',
             alpha=0.5
         )
+        
+        # Desenha os rótulos das arestas
+        edge_labels = {(estado, ano): f"{G.edges[estado, ano]['weight']:.2f}" for estado in estados_ordenados}
         nx.draw_networkx_edge_labels(
             G, pos,
             edge_labels=edge_labels,
-            font_size=10,
-            font_color='red'
+            font_size=8,
+            font_color='red',
+            bbox=dict(facecolor='white', edgecolor='none', alpha=0.7)  # Fundo branco para melhor legibilidade
         )
         
         # Desenha os rótulos dos nós
         nx.draw_networkx_labels(
             G, pos,
-            font_size=12,
+            font_size=10,
             font_weight='bold',
             font_color='black'
         )
         
         # Adiciona título e remove eixos
-        plt.title(f"Comunidades Detectadas no Ano {ano}", fontsize=24)
+        plt.title(f"Comunidades Detectadas no Ano {ano}", fontsize=16)
         plt.axis('off')  # Remove os eixos
         
         # Salva a imagem

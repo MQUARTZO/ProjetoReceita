@@ -11,6 +11,7 @@ def calculate_centrality(df, output_folder):
         df_ano = df[df['Ano'] == ano]
         G = nx.Graph()
         
+        # Adiciona nós e arestas ao grafo
         for _, row in df_ano.iterrows():
             estado = row['UF']
             arrecadacao = row['IMPOSTO SOBRE IMPORTAÇÃO']
@@ -18,60 +19,64 @@ def calculate_centrality(df, output_folder):
             G.add_node(ano, bipartite=1)
             G.add_edge(estado, ano, weight=arrecadacao)
         
+        # Ordena os estados por valor de imposto sobre importação (decrescente)
+        estados_ordenados = sorted(df_ano['UF'], key=lambda x: df_ano[df_ano['UF'] == x]['IMPOSTO SOBRE IMPORTAÇÃO'].values[0], reverse=True)
+        
+        # Define posições dos nós manualmente
+        pos = {}
+        pos[ano] = (0, 0)  # Ano no centro
+        for i, estado in enumerate(estados_ordenados):
+            pos[estado] = (1, i)  # Estados à direita, ordenados
+        
         # Calcula o grau de centralidade
         centrality = nx.degree_centrality(G)
-        
-        # Ordena os nós por centralidade (do maior para o menor)
-        centrality_sorted = sorted(centrality.items(), key=lambda x: x[1], reverse=True)
         
         # Salva os resultados em um arquivo de texto
         output_path = os.path.join(output_folder, f'centrality_{ano}.txt')
         with open(output_path, 'w') as f:
             f.write(f"Grau de Centralidade no Ano {ano}:\n")
-            for node, value in centrality_sorted:
+            for node, value in centrality.items():
                 f.write(f"{node}: {value:.4f}\n")
         
-        # Gera uma visualização gráfica do grafo com centralidade destacada
-        plt.figure(figsize=(20, 15))  # Aumenta o tamanho da figura
+        # Gera uma visualização gráfica do grafo
+        plt.figure(figsize=(12, 8))
         
-        # Usa o layout spring_layout com parâmetros personalizados para espalhar os nós
-        pos = nx.spring_layout(G, k=1.5, iterations=200)
-        
-        # Desenha os nós com tamanho proporcional ao grau de centralidade
-        node_size = [v * 5000 for v in centrality.values()]  # Ajusta o tamanho dos nós
+        # Desenha os nós
         nx.draw_networkx_nodes(
             G, pos,
-            node_size=node_size,
-            node_color=list(centrality.values()),
-            cmap=plt.cm.plasma,  # Mapa de cores para destacar a centralidade
+            node_size=1000,
+            node_color='skyblue',
             alpha=0.8
         )
         
-        # Desenha as arestas com o valor do imposto no centro
-        edge_labels = {(u, v): f"{d['weight']:.2f}" for u, v, d in G.edges(data=True)}
-        nx.draw_networkx_edges(
+        # Desenha as arestas
+        edges = nx.draw_networkx_edges(
             G, pos,
             width=1.0,
             edge_color='gray',
             alpha=0.5
         )
+        
+        # Desenha os rótulos das arestas
+        edge_labels = {(estado, ano): f"{G.edges[estado, ano]['weight']:.2f}" for estado in estados_ordenados}
         nx.draw_networkx_edge_labels(
             G, pos,
             edge_labels=edge_labels,
-            font_size=10,
-            font_color='red'
+            font_size=8,
+            font_color='red',
+            bbox=dict(facecolor='white', edgecolor='none', alpha=0.7)  # Fundo branco para melhor legibilidade
         )
         
         # Desenha os rótulos dos nós
         nx.draw_networkx_labels(
             G, pos,
-            font_size=12,
+            font_size=10,
             font_weight='bold',
             font_color='black'
         )
         
         # Adiciona título e remove eixos
-        plt.title(f"Grau de Centralidade no Ano {ano}", fontsize=24)
+        plt.title(f"Grau de Centralidade no Ano {ano}", fontsize=16)
         plt.axis('off')  # Remove os eixos
         
         # Salva a imagem

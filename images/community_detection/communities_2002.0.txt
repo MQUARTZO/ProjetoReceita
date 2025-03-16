@@ -1,9 +1,9 @@
 Comunidades Detectadas no Ano 2002.0:
-AC: Comunidade 0
-2002.0: Comunidade 0
+AC: Comunidade 1
+2002.0: Comunidade 1
 AL: Comunidade 2
 AM: Comunidade 3
-AP: Comunidade 0
+AP: Comunidade 1
 BA: Comunidade 5
 CE: Comunidade 6
 DF: Comunidade 7
@@ -21,9 +21,9 @@ PR: Comunidade 18
 RJ: Comunidade 19
 RN: Comunidade 20
 RO: Comunidade 21
-RR: Comunidade 0
+RR: Comunidade 1
 RS: Comunidade 23
-SC: Comunidade 1
+SC: Comunidade 0
 SE: Comunidade 4
 SP: Comunidade 22
-TO: Comunidade 0
+TO: Comunidade 1
