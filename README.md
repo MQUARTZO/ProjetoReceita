@@ -64,6 +64,6 @@ Os subgrafos serão salvos na pasta `images/`.
 - Criar uma API para facilitar o acesso aos dados.
 
 ---
-📌 **Mantenedor:** [MQUARTZO](https://github.com/MQUARTZO), [ROBSONLUAN95](https://github.com/robsonluan95)
+📌 **Mantenedor:** [MQUARTZO](https://github.com/MQUARTZO), [ROBSONLUAN95](https://github.com/robsonluan95), [WESLEYKX](https://github.com/WesleyKx)
 📢 **Contribuições são bem-vindas!** Abra um Pull Request. 🚀
 
