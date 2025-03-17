@@ -1,7 +1,7 @@
 Comunidades Detectadas no Ano 2006.0:
 AC: Comunidade 0
 2006.0: Comunidade 0
-AL: Comunidade 1
+AL: Comunidade 0
 AM: Comunidade 0
 AP: Comunidade 0
 BA: Comunidade 0
